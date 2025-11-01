@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>タイプ別診断</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-100 text-white min-h-screen flex items-center justify-center p-4">
+  <div id="app" class="max-w-md w-full text-center"></div>
+  <script>
+    const questions = [
+  {
+    "text": "感情が乗っていないと、勉強がまったく進まない",
+    "yes": [
+      "Feeling+2",
+      "Interest+1"
+    ],
+    "no": [
+      "Thinking+1",
+      "Careful+1"
+    ]
+  },
+  {
+    "text": "勉強は「どうしてそうなるのか」を理解しないと気が済まない",
+    "yes": [
+      "Thinking+2",
+      "Linguistic+1"
+    ],
+    "no": [
+      "Feeling+1"
+    ]
+  },
+  {
+    "text": "教材は「使いやすさ」より「気分が上がるか」を優先する",
+    "yes": [
+      "Feeling+2",
+      "Visual+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "ノートの構成や図でのまとめが得意",
+    "yes": [
+      "Thinking+1",
+      "Visual+2"
+    ],
+    "no": [
+      "Linguistic+1"
+    ]
+  },
+  {
+    "text": "勉強中に音が気になることがある",
+    "yes": [
+      "Auditory+2"
+    ],
+    "no": [
+      "Visual+1"
+    ]
+  },
+  {
+    "text": "参考書を一ページずつ丁寧に進めるのが好きだ",
+    "yes": [
+      "Careful+2",
+      "Thinking+1"
+    ],
+    "no": [
+      "Interest+1"
+    ]
+  },
+  {
+    "text": "やると決めたことは、その日のうちに終わらせたい",
+    "yes": [
+      "Thinking+1",
+      "Interest+2"
+    ],
+    "no": [
+      "Careful+1"
+    ]
+  },
+  {
+    "text": "納得できるまで何度もやり直すタイプだ",
+    "yes": [
+      "Thinking+2",
+      "Kinesthetic+1"
+    ],
+    "no": [
+      "Feeling+1"
+    ]
+  },
+  {
+    "text": "ミスを減らすために見直しにかなり時間を使う",
+    "yes": [
+      "Careful+2",
+      "Thinking+1"
+    ],
+    "no": [
+      "Interest+1"
+    ]
+  },
+  {
+    "text": "自分ルールややり方にこだわりがある",
+    "yes": [
+      "Thinking+2",
+      "Careful+1"
+    ],
+    "no": [
+      "Interest+1"
+    ]
+  },
+  {
+    "text": "難しい問題に挑戦するのが好き",
+    "yes": [
+      "Interest+2",
+      "Thinking+1"
+    ],
+    "no": [
+      "Careful+1"
+    ]
+  },
+  {
+    "text": "今の自分に必要なことを選んで勉強したい",
+    "yes": [
+      "Thinking+2",
+      "Interest+1"
+    ],
+    "no": [
+      "Careful+1"
+    ]
+  },
+  {
+    "text": "図やイラストを使って覚えるのが得意だ",
+    "yes": [
+      "Visual+2"
+    ],
+    "no": [
+      "Linguistic+1"
+    ]
+  },
+  {
+    "text": "道案内は地図より、言葉で説明してもらう方がわかりやすい",
+    "yes": [
+      "Linguistic+2",
+      "Auditory+1"
+    ],
+    "no": [
+      "Visual+2"
+    ]
+  },
+  {
+    "text": "文章を読んで情景を思い浮かべるのが得意だ",
+    "yes": [
+      "Linguistic+2",
+      "Visual+1"
+    ],
+    "no": [
+      "Auditory+1"
+    ]
+  },
+  {
+    "text": "静かな環境よりも、音やリズムがある方が集中できる",
+    "yes": [
+      "Auditory+2",
+      "Kinesthetic+1"
+    ],
+    "no": [
+      "Careful+1"
+    ]
+  },
+  {
+    "text": "例題を見て、真似して解くことで覚えられる",
+    "yes": [
+      "Kinesthetic+1",
+      "Visual+1"
+    ],
+    "no": [
+      "Linguistic+1"
+    ]
+  },
+  {
+    "text": "身振り手振りで説明することがよくある",
+    "yes": [
+      "Kinesthetic+2"
+    ],
+    "no": [
+      "Linguistic+1"
+    ]
+  },
+  {
+    "text": "ノートや参考書は、見た目の美しさも重視したい",
+    "yes": [
+      "Visual+2",
+      "Feeling+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "小説やエッセイなど文章を読むのが好き",
+    "yes": [
+      "Linguistic+2"
+    ],
+    "no": [
+      "Auditory+1"
+    ]
+  },
+  {
+    "text": "嫌いな先生や教材だと、やる気が一気になくなる",
+    "yes": [
+      "Feeling+1",
+      "Auditory+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "勉強内容よりも「どんな気持ちでやるか」が大事だと思う",
+    "yes": [
+      "Feeling+1",
+      "Kinesthetic+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "誰かに褒められると、もっとがんばりたくなる",
+    "yes": [
+      "Feeling+1",
+      "Auditory+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "勉強中に気がついたら泣いていたことがある",
+    "yes": [
+      "Feeling+1",
+      "Linguistic+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "「好き」か「嫌い」かで、取り組み方がまったく変わる",
+    "yes": [
+      "Feeling+1",
+      "Interest+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "疲れていても、「応援してくれる人」のことを思うと頑張れる",
+    "yes": [
+      "Feeling+1",
+      "Auditory+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "推しや好きなキャラに応援されてる想像でやる気が出る",
+    "yes": [
+      "Feeling+1",
+      "Visual+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "しんどいときに気持ちを書き出すと少し楽になる",
+    "yes": [
+      "Feeling+1",
+      "Linguistic+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "勉強の中身より「雰囲気」「テンション」が大事",
+    "yes": [
+      "Feeling+1",
+      "Kinesthetic+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "「がんばったね」と声をかけられると涙が出そうになる",
+    "yes": [
+      "Feeling+1",
+      "Auditory+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "時間通りに勉強が始められると安心する",
+    "yes": [
+      "Careful+2"
+    ],
+    "no": [
+      "Interest+1"
+    ]
+  },
+  {
+    "text": "勉強の進み具合をグラフや数字で管理したい",
+    "yes": [
+      "Careful+2",
+      "Visual+1"
+    ],
+    "no": [
+      "Interest+1"
+    ]
+  },
+  {
+    "text": "復習計画を先に立ててから勉強することが多い",
+    "yes": [
+      "Careful+2",
+      "Thinking+1"
+    ],
+    "no": [
+      "Interest+1"
+    ]
+  },
+  {
+    "text": "どこがダメだったのかを分析するのが好き",
+    "yes": [
+      "Thinking+2",
+      "Linguistic+1"
+    ],
+    "no": [
+      "Feeling+1"
+    ]
+  },
+  {
+    "text": "目的のない勉強はしたくない",
+    "yes": [
+      "Thinking+2",
+      "Interest+1"
+    ],
+    "no": [
+      "Feeling+1"
+    ]
+  },
+  {
+    "text": "声に出すと記憶が定着しやすい",
+    "yes": [
+      "Auditory+2"
+    ],
+    "no": [
+      "Linguistic+1"
+    ]
+  },
+  {
+    "text": "BGMがあると集中できる",
+    "yes": [
+      "Auditory+2"
+    ],
+    "no": [
+      "Visual+1"
+    ]
+  },
+  {
+    "text": "話しながら考えることが多い",
+    "yes": [
+      "Auditory+2",
+      "Feeling+1"
+    ],
+    "no": [
+      "Thinking+1"
+    ]
+  },
+  {
+    "text": "言葉の表現や言い回しに敏感だと思う",
+    "yes": [
+      "Linguistic+2"
+    ],
+    "no": [
+      "Auditory+1"
+    ]
+  },
+  {
+    "text": "文章にまとめると理解が深まる",
+    "yes": [
+      "Linguistic+2"
+    ],
+    "no": [
+      "Kinesthetic+1"
+    ]
+  },
+  {
+    "text": "配色やデザインがキレイな教材を選びがちだ",
+    "yes": [
+      "Visual+2"
+    ],
+    "no": [
+      "Linguistic+1"
+    ]
+  },
+  {
+    "text": "映像や図を見ながら学ぶと頭に入りやすいと思う",
+    "yes": [
+      "Visual+2"
+    ],
+    "no": [
+      "Auditory+1"
+    ]
+  },
+  {
+    "text": "今日はこれやりたい！と気分で勉強を選ぶことが多い",
+    "yes": [
+      "Interest+2",
+      "Feeling+1"
+    ],
+    "no": [
+      "Careful+1"
+    ]
+  },
+  {
+    "text": "何度も書いたり動いたりしないと覚えにくい",
+    "yes": [
+      "Kinesthetic+2"
+    ],
+    "no": [
+      "Visual+1"
+    ]
+  },
+  {
+    "text": "図や解説を見るより、まず自分でやってみたい",
+    "yes": [
+      "Kinesthetic+2",
+      "Interest+1"
+    ],
+    "no": [
+      "Careful+1"
+    ]
+  }
+];
+
+    const traits = ["Thinking","Feeling","Careful","Interest","Visual","Linguistic","Auditory","Kinesthetic"];
+    const scores = Object.fromEntries(traits.map(k => [k, 0]));
+    let current = 0;
+    const app = document.getElementById("app");
+
+    function renderQuestion() {
+      const q = questions[current];
+      app.innerHTML = `
+        <p class="text-xl mb-6">${q.text}</p>
+        <div class="flex flex-col gap-4">
+          <button onclick="answer('yes')" class="bg-white text-blue-600 font-bold py-2 px-4 rounded-xl shadow">はい</button>
+          <button onclick="answer('no')" class="bg-white text-blue-600 font-bold py-2 px-4 rounded-xl shadow">いいえ</button>
+        </div>
+      `;
+    }
+
+    function answer(choice) {
+      const scoreChanges = questions[current][choice];
+      for (const change of scoreChanges) {
+        const [key, value] = change.split("+");
+        scores[key] += parseInt(value);
+      }
+      current++;
+      if (current >= questions.length) {
+        showResult();
+      } else {
+        renderQuestion();
+      }
+    }
+
+    function showResult() {
+      const T = scores.Thinking >= scores.Feeling ? "T" : "F";
+      const I = scores.Interest > scores.Careful ? "I" : "C";
+      const cog = scores;
+      const maxCog = Math.max(cog.Visual, cog.Linguistic, cog.Auditory, cog.Kinesthetic);
+      const order = ["Linguistic", "Visual", "Auditory", "Kinesthetic"];
+      const V = order.find(k => cog[k] === maxCog)?.[0][0] || "V";
+      const code = T + I + V;
+
+      app.innerHTML = `
+        <h1 class="text-2xl font-bold mb-4">あなたのタイプは…</h1>
+        <p class="text-4xl font-bold mb-6">${code}</p>
+        <p class="text-white text-sm">※ 本診断の詳細タイプは後日公開されます。</p>
+      `;
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>
