@@ -17,19 +17,19 @@ const app = document.getElementById("app");
 
 // === 表紙 ===
 function renderIntro() {
-  app.innerHTML = \`
+  app.innerHTML = `
     <div class="space-y-4">
       <h1 class="text-3xl font-bold">タイプ別勉強法診断</h1>
       <p>40の質問に答えて、あなたの<strong>勉強スタイル</strong>を診断しよう！<br>16タイプであなたにぴったりの学び方が見つかります！</p>
       <button onclick="next()" class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl shadow">診断スタート</button>
     </div>
-  \`;
+  `;
 }
 
 // === 質問描画 ===
 function renderQuestion() {
   const q = questions[current];
-  app.innerHTML = \`
+  app.innerHTML = `
     <p class="mb-4 text-sm">【\${current+1} / \${questions.length}問目】</p>
     <p class="text-xl mb-6">\${q.text}</p>
     <div class="flex flex-col gap-4">
@@ -37,7 +37,7 @@ function renderQuestion() {
       <button onclick="answer('no')" class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl shadow">いいえ</button>
     </div>
     \${current > 0 ? '<button onclick="back()" class="mt-4 underline text-sm">← 前の質問に戻る</button>' : ''}
-  \`;
+  `;
 }
 
 // === スコア加算 ===
@@ -87,7 +87,7 @@ function showResult() {
 
   const traitExplain = [traitDescriptions[T], traitDescriptions[I], traitDescriptions[V]];
 
-  app.innerHTML = \`
+  app.innerHTML = `
     <div class="text-left space-y-4">
       <h1 class="text-2xl font-bold">\${data["名前"]}（\${code}）</h1>
       <p><strong>紹介文：</strong>\${data["紹介文"]}</p>
@@ -99,7 +99,7 @@ function showResult() {
         \${traitExplain.map(text => \`<p>\${text}</p>\`).join("")}
       </div>
     </div>
-  \`;
+  `;
 }
 
 // === 診断データ（質問・結果・特性説明） ===
