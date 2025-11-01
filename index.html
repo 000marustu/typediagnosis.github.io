@@ -593,11 +593,11 @@ function renderIntro() {
 function renderQuestion() {
   const q = questions[current];
   app.innerHTML = `
-    <p class="mb-4 text-sm">【${current+1} / ${questions.length}問目】</p>
+    <p class="mb-4 text-sm">【${current + 1} / ${questions.length}問目】</p>
     <p class="text-xl mb-6">${q.text}</p>
     <div class="flex flex-col gap-4">
-      <button onclick="answer('yes')" class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl shadow">はい</button>
-      <button onclick="answer('no')" class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl shadow">いいえ</button>
+      <button id="yes" onclick="answer('yes')" class="transition-colors duration-200 bg-white text-blue-700 font-bold py-2 px-4 rounded-xl shadow">はい</button>
+      <button id="no" onclick="answer('no')" class="transition-colors duration-200 bg-white text-blue-700 font-bold py-2 px-4 rounded-xl shadow">いいえ</button>
     </div>
     ${current > 0 ? '<button onclick="back()" class="mt-4 underline text-sm">← 前の質問に戻る</button>' : ''}
   `;
@@ -606,13 +606,19 @@ function renderQuestion() {
 // === スコア加算 ===
 const history = [];
 function answer(choice) {
-  history[current] = choice;
-  const scoreChanges = questions[current][choice];
-  for (const change of scoreChanges) {
-    const [key, value] = change.split("+");
-    scores[key] += parseInt(value);
-  }
-  next();
+  const btn = document.getElementById(choice);
+  btn.classList.add("bg-blue-700", "text-white");
+  btn.classList.remove("text-blue-700");
+
+  setTimeout(() => {
+    history[current] = choice;
+    const scoreChanges = questions[current][choice];
+    for (const change of scoreChanges) {
+      const [key, value] = change.split("+");
+      scores[key] += parseInt(value);
+    }
+    next();
+  }, 200); // 選択が見えるように0.2秒待つ
 }
 
 // === 戻る処理 ===
