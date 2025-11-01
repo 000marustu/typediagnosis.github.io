@@ -9,14 +9,12 @@
 <body class="bg-[#99a7c3] text-white min-h-screen flex items-center justify-center p-4">
   <div id="app" class="max-w-md w-full text-center"></div>
   <script>
-// === 表示用変数定義 ===
 let current = -1;
 const traits = ["Thinking","Feeling","Careful","Interest","Visual","Linguistic","Auditory","Kinesthetic"];
 const scores = Object.fromEntries(traits.map(k => [k, 0]));
 const app = document.getElementById("app");
 
-// === 質問 ===
-  const questions = [ {
+const questions = [ {
     "text": "感情が乗っていないと、勉強がまったく進まない",
     "yes": [
       "Feeling+2",
@@ -454,10 +452,9 @@ const app = document.getElementById("app");
     "no": [
       "Careful+1"
     ]
-  }
-];
-    const resultData = {
-  "FCV": {
+  }];
+
+const resultData = { "FCV": {
     "名前": "🐢 がんばりカメタイプ",
     "紹介文": "丁寧にコツコツ積み上げる努力家タイプ。感情に流されやすい一面もあるけれど、「できた！」の実感が大きな支えになる。視覚的に整理されたノートや図解で理解を深めるのが得意。",
     "強み": "継続力と地道な努力。ノート作りや色分けも得意で、安定したペースで勉強を続けられます。",
@@ -568,9 +565,18 @@ const app = document.getElementById("app");
     "強み": "実践経験を通じてどんどん上達できる行動力とスピード。",
     "注意点": "理論を飛ばして感覚だけで進むと、ミスに気づけないことも。",
     "勉強法": "①スピード演習で先に手を動かす、②解説を後でじっくり読み込む「後理解型」、③解いた記録を残して“習熟度”を見える化。"
-  }
+  }};
+
+const traitDescriptions = { 
+  "T": "T(合理-thinking)：合理的に判断する能力が高く、黒か白かはっきりと分けて無駄なく物事を進めようとするタイプ。また大雑把に進めるのが難しいタイプでもあり、この因子が高いと、なぜそうなったのか「原因や理由」が気になってしまうこともある。",
+  "F": "F(感情-feeling)：T(合理-thinking)の逆タイプ。",
+  "C": "C(慎重-careful)：慎重で丁寧に物事を進めたいと思うタイプ。枠組みを作りながら積み上げていくのは得意で、基礎を積み重ねるのは得意だが、応用問題においてひらめきが弱く、この因子が高いと難しい問題に取り組むことを怯んでしまうこともある。",
+  "I": "I(興味-interest)：自分が興味持ったことを好きに進めたいと思うタイプ。自由奔放さがユニークな発想に繋がる反面、無計画で雑でもある。応用問題などはゲーム感覚で解けるが、基礎問題においてはケアレスミスが多めになってしまうことも。",
+  "V": "V(視覚優位-Visual)：視覚から受け取った情報を処理できる特性です。",
+  "L": "L(言語優位-Linguistic)：文字や文章を読んで得た情報を処理できる特性のことを指します。",
+  "A": "A(聴覚優位-Auditory)：耳から聞いた音声情報を処理できる特性のことをいいます。",
+  "K": "K(体感覚優位型-Kinesthetic）：実際に体感・体験して得た情報を処理できる認知特性です。"
 };
-     
 
 // === 表紙 ===
 function renderIntro() {
@@ -587,13 +593,13 @@ function renderIntro() {
 function renderQuestion() {
   const q = questions[current];
   app.innerHTML = `
-    <p class="mb-4 text-sm">【\${current+1} / \${questions.length}問目】</p>
-    <p class="text-xl mb-6">\${q.text}</p>
+    <p class="mb-4 text-sm">【${current+1} / ${questions.length}問目】</p>
+    <p class="text-xl mb-6">${q.text}</p>
     <div class="flex flex-col gap-4">
       <button onclick="answer('yes')" class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl shadow">はい</button>
       <button onclick="answer('no')" class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl shadow">いいえ</button>
     </div>
-    \${current > 0 ? '<button onclick="back()" class="mt-4 underline text-sm">← 前の質問に戻る</button>' : ''}
+    ${current > 0 ? '<button onclick="back()" class="mt-4 underline text-sm">← 前の質問に戻る</button>' : ''}
   `;
 }
 
@@ -641,26 +647,23 @@ function showResult() {
   const V = order.find(k => cog[k] === maxCog)?.[0][0] || "V";
   const code = T + I + V;
   const data = resultData[code];
-
   const traitExplain = [traitDescriptions[T], traitDescriptions[I], traitDescriptions[V]];
 
   app.innerHTML = `
     <div class="text-left space-y-4">
-      <h1 class="text-2xl font-bold">\${data["名前"]}（\${code}）</h1>
-      <p><strong>紹介文：</strong>\${data["紹介文"]}</p>
-      <p><strong>強み：</strong>\${data["強み"]}</p>
-      <p><strong>注意点：</strong>\${data["注意点"]}</p>
-      <p><strong>おすすめ勉強法：</strong>\${data["勉強法"]}</p>
+      <h1 class="text-2xl font-bold">${data["名前"]}（${code}）</h1>
+      <p><strong>紹介文：</strong>${data["紹介文"]}</p>
+      <p><strong>強み：</strong>${data["強み"]}</p>
+      <p><strong>注意点：</strong>${data["注意点"]}</p>
+      <p><strong>おすすめ勉強法：</strong>${data["勉強法"]}</p>
       <div class="pt-4 border-t border-white space-y-2">
         <p class="font-bold">あなたの3つの特性：</p>
-        \${traitExplain.map(text => \`<p>\${text}</p>\`).join("")}
+        ${traitExplain.map(text => `<p>${text}</p>`).join("")}
       </div>
     </div>
   `;
 }
 
-// === プレースホルダ（questions, resultData, traitDescriptions） ===
-// 必要に応じて貼り付け
 renderIntro();
   </script>
 </body>
