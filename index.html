@@ -640,10 +640,19 @@ function next() {
   current++;
   if (current === 0) renderQuestion();
   else if (current < questions.length) renderQuestion();
-  else showResult();
+  else showLoading(); // ローディングアニメーションに変更！
 }
 
 // === 結果表示 ===
+function showLoading() {
+  app.innerHTML = `
+    <div class="flex flex-col items-center space-y-4">
+      <div class="text-xl font-bold animate-pulse">診断結果を計算中...</div>
+      <div class="loader border-t-4 border-white rounded-full w-12 h-12 animate-spin border-r-transparent"></div>
+    </div>
+  `;
+  setTimeout(showResult, 2000); // 2秒後に結果表示
+}
 function showResult() {
   const T = scores.Thinking >= scores.Feeling ? "T" : "F";
   const I = scores.Interest > scores.Careful ? "I" : "C";
