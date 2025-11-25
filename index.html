@@ -15,7 +15,7 @@ const scores = Object.fromEntries(traits.map(k => [k, 0]));
 const app = document.getElementById("app");
 
 const questions = [ {
-    "text": "感情が乗っていないと、勉強がまったく進まない",
+    "text": "感情が乗っていないと、<br>勉強がまったく進まない",
     "yes": [
       "Feeling+2",
       "Interest+1"
@@ -458,7 +458,7 @@ const resultData = { "FCV": {
     "名前": "🐢 がんばりカメタイプ",
     "紹介文": "丁寧にコツコツ積み上げる努力家タイプ。感情に流されやすい一面もあるけれど、「できた！」の実感が大きな支えになる。視覚的に整理されたノートや図解で理解を深めるのが得意。",
     "強み": "継続力と地道な努力。ノート作りや色分けも得意で、安定したペースで勉強を続けられます。",
-    "注意点": "気分が沈むと手が止まりやすいこと。変化が少ないとマンネリ化する傾向も。",
+    "注意点": "・気分が沈むと手が止まりやすく、誰かの一言に影響されてしまうこと・同じ勉強法を続けるなど、変化が少ないとマンネリ化しやすく、刺激がないと飽きがくることも",
     "勉強法": "①時間を決めて学習する「時間ブロック法」、②図や表を使ったノートまとめ、③毎日の達成を可視化する“勉強記録シート”。"
   },
   "FCL": {
@@ -675,7 +675,7 @@ function showResult() {
         <p class="font-bold">あなたの3つの特性：</p>
         ${traitExplain.map(text => `<p>${text}</p>`).join("")}
       </div>
-   <p class="text-sm mt-6">診断された回数：
+   <p class="text-sm mt-6">診断された総回数：
  <img src="https://hitwebcounter.com/counter/counter.php?page=21456317&style=0007&nbdigits=5&type=page&initCount=0" title="Free Tools" Alt="Free Tools"   border="0" /></a>   
 </p>
     </div>
